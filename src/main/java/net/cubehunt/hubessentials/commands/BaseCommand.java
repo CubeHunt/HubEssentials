@@ -1,7 +1,6 @@
 package net.cubehunt.hubessentials.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -14,7 +13,6 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 import static net.cubehunt.hubessentials.utils.Color.colorize;
-
 
 public abstract class BaseCommand extends BukkitCommand {
 

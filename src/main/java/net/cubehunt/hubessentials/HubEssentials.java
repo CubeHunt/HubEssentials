@@ -1,7 +1,7 @@
 package net.cubehunt.hubessentials;
 
-import net.cubehunt.hubessentials.commands.spawn_commands.SetSpawnCommand;
-import net.cubehunt.hubessentials.commands.spawn_commands.SpawnCommand;
+import net.cubehunt.hubessentials.commands.spawncommands.SetSpawnCommand;
+import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;

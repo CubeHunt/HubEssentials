@@ -1,4 +1,4 @@
-package net.cubehunt.hubessentials.commands.spawn_commands;
+package net.cubehunt.hubessentials.commands.spawncommands;
 
 import net.cubehunt.hubessentials.HubEssentials;
 import net.cubehunt.hubessentials.commands.BaseCommand;
