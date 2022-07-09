@@ -1,0 +1,6 @@
+name: HubEssentials
+version: '${project.version}'
+main: net.cubehunt.hubessentials.HubEssentials
+api-version: 1.19
+authors: [ LuuckA, Matthewbolds ]
+description: Hub Essentials Plugin
