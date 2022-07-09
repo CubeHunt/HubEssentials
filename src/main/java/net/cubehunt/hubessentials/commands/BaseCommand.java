@@ -1,19 +1,24 @@
 package net.cubehunt.hubessentials.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.help.GenericCommandHelpTopic;
+import org.bukkit.help.HelpTopic;
+import org.bukkit.help.IndexHelpTopic;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static net.cubehunt.hubessentials.utils.Color.colorize;
 
 
 public abstract class BaseCommand extends BukkitCommand {
+
+    private static final Set<BaseCommand> commandsRegistered = new HashSet<>();
 
     public BaseCommand(String name, String description) {
         this(name, description, null);
@@ -29,10 +34,26 @@ public abstract class BaseCommand extends BukkitCommand {
             Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             field.setAccessible(true);
             CommandMap map = (CommandMap) field.get(Bukkit.getServer());
-            map.register(name, this);
+            map.register("hubessentials", this);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        commandsRegistered.add(this);
+        Bukkit.getHelpMap().clear();
+        List<HelpTopic> topics = new ArrayList<>();
+        for (final BaseCommand bc : commandsRegistered) {
+            topics.add(new GenericCommandHelpTopic(bc));
+        }
+        Bukkit.getHelpMap().addTopic(
+                new IndexHelpTopic(
+                        "HubEssentials",
+                        "HubEssentials",
+                        "hubessentials.help",
+                        topics,
+                        "HubEssentials Help page"
+                )
+        );
     }
 
     @Override

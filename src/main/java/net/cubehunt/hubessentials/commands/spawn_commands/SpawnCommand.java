@@ -1,9 +1,10 @@
-package net.cubehunt.hubessentials.commands.SpawnCommands;
+package net.cubehunt.hubessentials.commands.spawn_commands;
 
 import net.cubehunt.hubessentials.HubEssentials;
 import net.cubehunt.hubessentials.commands.BaseCommand;
 import net.cubehunt.hubessentials.commands.CommandSource;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -20,8 +21,9 @@ public class SpawnCommand extends BaseCommand {
 
     @Override
     public void execute(CommandSource sender, String[] args) throws Exception {
+        // VEDI GLI APPUNTI IN SetSpawnCommand
         if (sender.isPlayer()) {
-            sender.sendMessage("You've been telported to the spawn!");
+            sender.sendMessage("You've been teleported to the spawn!");
         } else {
             plugin.getLogger().log(Level.INFO, "Only in-game players can execute this command!");
         }
@@ -29,6 +31,6 @@ public class SpawnCommand extends BaseCommand {
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args) {
-        return null;
+        return Collections.emptyList();
     }
 }
