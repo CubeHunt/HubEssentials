@@ -1,23 +1,31 @@
 package net.cubehunt.hubessentials;
 
+import net.cubehunt.hubessentials.commands.SpawnCommands.SetSpawnCommand;
+import net.cubehunt.hubessentials.commands.SpawnCommands.SpawnCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class HubEssentials extends JavaPlugin {
-
-    private static final Logger LOGGER = Logger.getLogger("HubEssentials");
+    // Initializing a logger to print logs into the console
+    private static final Logger logger = Logger.getLogger("HubEssentials");
 
     @Override
     public void onEnable() {
-        if (LOGGER != super.getLogger()) {
-            LOGGER.setParent(super.getLogger());
+        // Plugin startup logic
+        if (logger != super.getLogger()) {
+            logger.setParent(super.getLogger());
         }
 
+        new SetSpawnCommand(this);
+        new SpawnCommand(this);
+
+        logger.log(Level.INFO, "HubEssentials has been loaded successfully!");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        logger.log(Level.INFO, "HubEssentials has been disabled successfully!");
     }
 }
