@@ -3,10 +3,12 @@ package net.cubehunt.hubessentials.commands.spawncommands;
 import net.cubehunt.hubessentials.HubEssentials;
 import net.cubehunt.hubessentials.commands.BaseCommand;
 import net.cubehunt.hubessentials.commands.CommandSource;
+import net.cubehunt.hubessentials.exceptions.InsufficientPermissionException;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 
 public class SetSpawnCommand extends BaseCommand {
 
@@ -27,19 +29,27 @@ public class SetSpawnCommand extends BaseCommand {
         *
         * Dopo l'IF sopra si fanno le altre cose
         * */
-        if (sender.isPlayer()) {
-            sender.sendMessage("Spawn set successfully!");
-        } else {
-            // anche se é la console usa sempre sender.sendMessage, sender va bene sia per player che per console
-            plugin.getLogger().log(Level.INFO, "Only in-game players can execute this command!");
+        if (!sender.isPlayer()) throw new Exception("Only players can execute this command!");
+
+        Player player = sender.getPlayer();
+
+        // verifica permesso
+        if (!testPermissionSilent(player)) {
+            throw new InsufficientPermissionException("You do not have the permission for this command!");
         }
+
+        // logica per settare lo spawn
+        final Location location = player.getLocation(); // Prendo la location del player
+        plugin.setSpawn(location); // Setto lo spawn nel config
+
+        // Da qui il sender è di sicuro un player
+        player.sendMessage("Spawn set successfully!");
 
         /*
         * Alcuni metodi utili:
         * una volta che sai che é un player puoi verificare se ha il permesso relativo al comando
         * testPermissionSilent(sender.getPlayer());
         * */
-
     }
 
     @Override
