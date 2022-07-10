@@ -13,8 +13,16 @@ public class CommandBlocker implements IConfig {
 
     private final HubEssentials plugin;
 
+    private final BaseConfiguration config;
+
+    // Variabile per salvare i comandi da bloccare
+    @Getter
+    private final Set<CommandToBlock> blockedCommands = new HashSet<>();
+
     public CommandBlocker(HubEssentials plugin) {
         this.plugin = plugin;
+        this.config = new BaseConfiguration(new File(plugin.getDataFolder(), "blocked-commands.yml"), "/blocked-commands.yml");
+        reloadConfig();
     }
 
     @Override

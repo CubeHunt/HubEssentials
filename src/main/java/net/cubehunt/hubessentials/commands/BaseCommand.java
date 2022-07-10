@@ -1,5 +1,6 @@
 package net.cubehunt.hubessentials.commands;
 
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -59,7 +60,7 @@ public abstract class BaseCommand extends BukkitCommand {
         try {
             execute(new CommandSource(sender), args);
         } catch (Exception e) {
-            sender.sendMessage(colorize(e.getMessage()));
+            sender.spigot().sendMessage(colorize(e.getMessage()));
         }
         return false;
     }

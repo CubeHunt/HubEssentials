@@ -20,7 +20,21 @@ public class CommandBlockerListener implements Listener {
 
     @EventHandler
     public void onCommandPreProcess(final PlayerCommandPreprocessEvent event) {
+        Player player = event.getPlayer();
+        String command = event.getMessage();
 
+        final Set<CommandToBlock> commandToBlocks = plugin.getBlockedCommands();
+        Optional<CommandToBlock> optional = commandToBlocks.stream().filter(cmd -> command.startsWith(cmd.command())).findAny();
+
+        if (optional.isPresent()) {
+            final CommandToBlock commandToBlock = optional.get();
+            if (commandToBlock.permission().length() >= 1) {
+                if (!player.hasPermission(commandToBlock.permission())) {
+                    player.spigot().sendMessage(colorize(commandToBlock.message()));
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 
 }

@@ -29,7 +29,7 @@ public final class CommandSource {
     }
 
     public void sendMessage(final String message) {
-        if (!message.isEmpty()) sender.sendMessage(colorize(message));
+        if (!message.isEmpty()) sender.spigot().sendMessage(colorize(message));
     }
 
     public boolean hasPermission(final String permission) {
