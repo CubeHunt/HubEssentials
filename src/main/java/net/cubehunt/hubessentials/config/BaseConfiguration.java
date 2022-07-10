@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 public final class BaseConfiguration {
 
-    private static final Logger LOGGER = Logger.getLogger("TestPlugin");
+    private static final Logger logger = Logger.getLogger("HubEssentials");
 
     private Class<?> resourceClass = BaseConfiguration.class;
     private final File configFile;
@@ -84,7 +84,7 @@ public final class BaseConfiguration {
             try {
                 result.put(entry.getKey().toLowerCase(Locale.ENGLISH), jailNode.get(LazyLocation.class));
             } catch (SerializationException e) {
-                LOGGER.log(Level.WARNING, "Error serializing key " + entry.getKey(), e);
+                logger.log(Level.WARNING, "Error serializing key " + entry.getKey(), e);
             }
         }
         return result;
@@ -100,7 +100,7 @@ public final class BaseConfiguration {
         try {
             toSplitRoot(path, configurationNode).set(type, list);
         } catch (SerializationException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -115,7 +115,7 @@ public final class BaseConfiguration {
             if (list == null) return new ArrayList<>();
             return list;
         } catch (SerializationException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
             return new ArrayList<>();
         }
     }
@@ -242,7 +242,7 @@ public final class BaseConfiguration {
             try {
                 node.set(null);
             } catch (SerializationException e) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                logger.log(Level.SEVERE, e.getMessage(), e);
             }
         }
     }
@@ -251,7 +251,7 @@ public final class BaseConfiguration {
         try {
             toSplitRoot(path, configurationNode).set(value);
         } catch (SerializationException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -275,7 +275,7 @@ public final class BaseConfiguration {
     public void load() {
         if (configFile.getParentFile() != null && !configFile.getParentFile().exists()) {
             if (!configFile.getParentFile().mkdirs()) {
-                LOGGER.log(Level.SEVERE, "Failed to create file: ", configFile.toString());
+                logger.log(Level.SEVERE, "Failed to create file: ", configFile.toString());
             }
         }
 
@@ -287,7 +287,7 @@ public final class BaseConfiguration {
                     this.configFile.createNewFile();
                 }
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Failed to create file " + configFile, e);
+                logger.log(Level.SEVERE, "Failed to create file " + configFile, e);
             }
         }
 
@@ -296,12 +296,12 @@ public final class BaseConfiguration {
         } catch (final ParsingException e) {
             final File broken = new File(configFile.getAbsolutePath() + ".broken." + System.currentTimeMillis());
             if (configFile.renameTo(broken)) {
-                LOGGER.log(Level.SEVERE, "The file " + configFile + " is broken, it has been renamed to " + broken, e.getCause());
+                logger.log(Level.SEVERE, "The file " + configFile + " is broken, it has been renamed to " + broken, e.getCause());
                 return;
             }
-            LOGGER.log(Level.SEVERE, "The file " + configFile + " is broken. A backup file has failed to be created", e.getCause());
+            logger.log(Level.SEVERE, "The file " + configFile + " is broken. A backup file has failed to be created", e.getCause());
         } catch (final ConfigurateException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);;
+            logger.log(Level.SEVERE, e.getMessage(), e);;
         } finally {
             if (configurationNode == null) {
                 configurationNode = loader.createNode();

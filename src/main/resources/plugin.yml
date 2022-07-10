@@ -6,3 +6,10 @@ authors: [ LuuckA, matthewbolds ]
 description: Hub Essentials Plugin
 libraries:
   - org.spongepowered:configurate-yaml:${libs.configurate-yaml}
+permissions:
+  hubessentials.setspawn:
+    default: false
+    description: Allow user to set the spawn point
+  hubessentials.spawn:
+    default: false
+    description: Allows user to go to spawn
