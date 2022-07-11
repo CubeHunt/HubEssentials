@@ -34,7 +34,7 @@ public class Spawn implements IConfig {
         return config.hasProperty("spawn");
     }
 
-    // Reloads the plugin
+    // Reloads spawn.yml
     @Override
     public void reloadConfig() {
         config.load();

@@ -15,23 +15,25 @@ public class CommandBlocker implements IConfig {
 
     private final BaseConfiguration config;
 
-    // Variabile per salvare i comandi da bloccare
     @Getter
     private final Set<CommandToBlock> blockedCommands = new HashSet<>();
 
     public CommandBlocker(HubEssentials plugin) {
         this.plugin = plugin;
-        this.config = new BaseConfiguration(new File(plugin.getDataFolder(), "blocked-commands.yml"), "/blocked-commands.yml");
+        this.config = new BaseConfiguration(
+                new File(plugin.getDataFolder(), "blocked-commands.yml"),
+                "/blocked-commands.yml"
+        );
         reloadConfig();
     }
 
     @Override
     public void reloadConfig() {
         config.load();
-        registerBlockedCommands(); // In modo che al reload i comandi vengano riregistrati
+        registerBlockedCommands();
     }
 
-    // Metodo che legge il file.yml popolando il set con i vari comandi bloccati
+    // Read blocked-commands.yml and populate blockdCommands
     private void registerBlockedCommands() {
         blockedCommands.clear();
         Set<String> keys = config.getKeys("commands");

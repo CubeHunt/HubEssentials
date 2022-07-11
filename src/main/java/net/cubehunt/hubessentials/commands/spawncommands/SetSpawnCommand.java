@@ -10,11 +10,12 @@ import org.bukkit.entity.Player;
 import java.util.Collections;
 import java.util.List;
 
+import static net.cubehunt.hubessentials.utils.Message.sendMessage;
+
 public class SetSpawnCommand extends BaseCommand {
 
     private final HubEssentials plugin;
 
-    // Setting command info
     public SetSpawnCommand(HubEssentials plugin) {
         super("setspawn", "Sets the spawn for the hub.", "hubessentials.setspawn");
         this.plugin = plugin;
@@ -22,34 +23,18 @@ public class SetSpawnCommand extends BaseCommand {
 
     @Override
     public void execute(CommandSource sender, String[] args) throws Exception {
-        /*
-        * Per evitare di avere un codice con molte indentazioni
-        * si usa fare:
-        * if (!sender.isPlayer()) throw new Exception("Only players can run this command")
-        *
-        * Dopo l'IF sopra si fanno le altre cose
-        * */
-        if (!sender.isPlayer()) throw new Exception("Only players can execute this command!");
+        if (!sender.isPlayer()) throw new Exception("<red>Only players can execute this command!");
 
         Player player = sender.getPlayer();
 
-        // verifica permesso
         if (!testPermissionSilent(player)) {
-            throw new InsufficientPermissionException("You do not have the permission for this command!");
+            throw new InsufficientPermissionException("<red>You do not have the permission for this command!");
         }
 
-        // logica per settare lo spawn
-        final Location location = player.getLocation(); // Prendo la location del player
-        plugin.setSpawn(location); // Setto lo spawn nel config
+        final Location location = player.getLocation();
+        plugin.setSpawn(location);
 
-        // Da qui il sender è di sicuro un player
-        player.sendMessage("Spawn set successfully!");
-
-        /*
-        * Alcuni metodi utili:
-        * una volta che sai che é un player puoi verificare se ha il permesso relativo al comando
-        * testPermissionSilent(sender.getPlayer());
-        * */
+        sendMessage(player, "<green>Spawn set successfully!");
     }
 
     @Override

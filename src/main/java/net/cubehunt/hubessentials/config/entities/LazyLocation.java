@@ -6,7 +6,7 @@ import org.bukkit.World;
 
 public class LazyLocation {
 
-    private String world;
+    private final String world;
     private final double x;
     private final double y;
     private final double z;

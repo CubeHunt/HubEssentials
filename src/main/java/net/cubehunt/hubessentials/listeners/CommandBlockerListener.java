@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import java.util.Optional;
 import java.util.Set;
 
-import static net.cubehunt.hubessentials.utils.Color.colorize;
+import static net.cubehunt.hubessentials.utils.Message.sendMessage;
 
 @RequiredArgsConstructor
 public class CommandBlockerListener implements Listener {
@@ -30,7 +30,7 @@ public class CommandBlockerListener implements Listener {
             final CommandToBlock commandToBlock = optional.get();
             if (commandToBlock.permission().length() >= 1) {
                 if (!player.hasPermission(commandToBlock.permission())) {
-                    player.spigot().sendMessage(colorize(commandToBlock.message()));
+                    sendMessage(player, commandToBlock.message());
                     event.setCancelled(true);
                 }
             }

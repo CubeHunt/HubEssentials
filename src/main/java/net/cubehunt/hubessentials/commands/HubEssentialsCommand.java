@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static net.cubehunt.hubessentials.utils.Message.sendMessage;
+
 public class HubEssentialsCommand extends BaseCommand {
 
     private final HubEssentials plugin;
@@ -25,11 +27,9 @@ public class HubEssentialsCommand extends BaseCommand {
         }
 
         if (args.length < 1)
-            throw new NotEnoughArgumentsException(this.getUsage()); // Se non ci sono abbastanza args restituiamo lo usage
+            throw new NotEnoughArgumentsException(this.getUsage());
 
-        // Se uno scrivo /hubessentials ciao restituiamo lo usage
         final CommandType cmd;
-
         try {
             cmd = CommandType.valueOf(args[0].toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -38,7 +38,7 @@ public class HubEssentialsCommand extends BaseCommand {
 
         switch (cmd) {
             case INFO -> {
-                sender.sendMessage(
+                sendMessage(sender,
                     "##### prefix #####\n" +
                     "<gray>Authors: <yellow>" + String.join(", ", plugin.getDescription().getAuthors()) + "\n" +
                     "<gray>Description: <yellow>" + plugin.getDescription().getDescription() + "\n" +
@@ -47,11 +47,11 @@ public class HubEssentialsCommand extends BaseCommand {
                 );
             }
             case VERSION -> {
-                sender.sendMessage("<gray>HubEssentials Version: " + plugin.getDescription().getVersion());
+                sendMessage(sender, "<gray>HubEssentials Version: <green>" + plugin.getDescription().getVersion());
             }
             case RELOAD -> {
                 plugin.reload();
-                sender.sendMessage("<green>HubEssentials has been reloaded successfully!");
+                sendMessage(sender, "<green>HubEssentials has been reloaded successfully!");
             }
             case HELP -> {
 
@@ -62,9 +62,7 @@ public class HubEssentialsCommand extends BaseCommand {
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args) {
-        if (!testPermissionSilent(sender.getSender())) {
-            return Collections.emptyList();
-        }
+        if (!testPermissionSilent(sender.getSender())) return Collections.emptyList();
 
         if (args.length == 1) {
             final List<String> options = new ArrayList<>();

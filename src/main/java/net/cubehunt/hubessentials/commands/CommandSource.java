@@ -2,10 +2,9 @@ package net.cubehunt.hubessentials.commands;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.cubehunt.hubessentials.utils.Message;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static net.cubehunt.hubessentials.utils.Color.colorize;
 
 public final class CommandSource {
 
@@ -29,7 +28,7 @@ public final class CommandSource {
     }
 
     public void sendMessage(final String message) {
-        if (!message.isEmpty()) sender.spigot().sendMessage(colorize(message));
+        if (!message.isEmpty()) Message.sendMessage(sender, message);
     }
 
     public boolean hasPermission(final String permission) {

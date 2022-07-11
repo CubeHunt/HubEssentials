@@ -6,12 +6,14 @@ import net.cubehunt.hubessentials.commands.HubEssentialsCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SetSpawnCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import net.cubehunt.hubessentials.config.IConfig;
+import net.cubehunt.hubessentials.listeners.ChatListener;
 import net.cubehunt.hubessentials.listeners.CommandBlockerListener;
 import net.cubehunt.hubessentials.listeners.SpawnListeners;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Location;
-import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.logging.Logger;
 public final class HubEssentials extends JavaPlugin {
     // Initializing a logger to print logs into the console
     private static final Logger logger = Logger.getLogger("HubEssentials");
+
+    private static BukkitAudiences adventure;
 
     private final List<IConfig> configList = new ArrayList<>();
 
@@ -39,9 +43,11 @@ public final class HubEssentials extends JavaPlugin {
             logger.setParent(super.getLogger());
         }
 
+        adventure = BukkitAudiences.create(this);
+
         registerConfigs();
         registerCommands();
-        reload();
+        registerListeners(getServer().getPluginManager());
 
         logger.log(Level.INFO, "HubEssentials has been loaded successfully!");
     }
@@ -50,6 +56,10 @@ public final class HubEssentials extends JavaPlugin {
     // Plugin Shutdown Logic
     @Override
     public void onDisable() {
+        if(adventure != null) {
+            adventure.close();
+            adventure = null;
+        }
         logger.log(Level.INFO, "HubEssentials has been disabled successfully!");
     }
 
@@ -57,8 +67,6 @@ public final class HubEssentials extends JavaPlugin {
         for (final IConfig config : configList) {
             config.reloadConfig();
         }
-
-        registerListeners(getServer().getPluginManager());
     }
 
     private void registerCommands() {
@@ -68,13 +76,14 @@ public final class HubEssentials extends JavaPlugin {
     }
 
     private void registerListeners(final PluginManager pm) {
-        HandlerList.unregisterAll(this);
-
         final SpawnListeners spawnListeners = new SpawnListeners(this);
         pm.registerEvents(spawnListeners, this);
 
         final CommandBlockerListener commandBlockerListener = new CommandBlockerListener(this);
         pm.registerEvents(commandBlockerListener, this);
+
+        final ChatListener chatListener = new ChatListener(this);
+        pm.registerEvents(chatListener, this);
     }
 
     private void registerConfigs() {
@@ -85,6 +94,13 @@ public final class HubEssentials extends JavaPlugin {
         configList.add(commandBlocker);
     }
 
+    // BukkitAudiences - Methods
+    public static @NonNull BukkitAudiences adventure() {
+        if(adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return adventure;
+    }
 
     /* Spawn Functionality - Methods */
     public Location getSpawn() {

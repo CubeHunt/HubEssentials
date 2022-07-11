@@ -1,6 +1,6 @@
 package net.cubehunt.hubessentials.commands;
 
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.cubehunt.hubessentials.utils.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -13,11 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static net.cubehunt.hubessentials.utils.Color.colorize;
-
 public abstract class BaseCommand extends BukkitCommand {
 
-    private static final Set<BaseCommand> commandsRegistered = new HashSet<>();
+    private static final Set<BaseCommand> registeredCommands = new HashSet<>();
 
     public BaseCommand(String name, String description) {
         this(name, description, null);
@@ -38,16 +36,16 @@ public abstract class BaseCommand extends BukkitCommand {
             e.printStackTrace();
         }
 
-        commandsRegistered.add(this);
+        registeredCommands.add(this);
         Bukkit.getHelpMap().clear();
         List<HelpTopic> topics = new ArrayList<>();
-        for (final BaseCommand bc : commandsRegistered) {
+        for (final BaseCommand bc : registeredCommands) {
             topics.add(new GenericCommandHelpTopic(bc));
         }
         Bukkit.getHelpMap().addTopic(
                 new IndexHelpTopic(
                         "HubEssentials",
-                        "HubEssentials",
+                        "HubEss",
                         "hubessentials.help",
                         topics,
                         "HubEssentials Help page"
@@ -59,8 +57,8 @@ public abstract class BaseCommand extends BukkitCommand {
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, String[] args) {
         try {
             execute(new CommandSource(sender), args);
-        } catch (Exception e) {
-            sender.spigot().sendMessage(colorize(e.getMessage()));
+        } catch (Exception ex) {
+            Message.sendMessage(sender, ex.getMessage());
         }
         return false;
     }

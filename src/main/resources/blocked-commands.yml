@@ -1,4 +1,4 @@
-commands: # Section
-  "/cmd": # Chiave
+commands:
+  "/cmd":
     permission: "cmd.cmd"
     message: "message"
