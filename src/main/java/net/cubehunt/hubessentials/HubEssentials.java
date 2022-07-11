@@ -1,5 +1,6 @@
 package net.cubehunt.hubessentials;
 
+import lombok.Getter;
 import net.cubehunt.hubessentials.commandblocker.CommandBlocker;
 import net.cubehunt.hubessentials.commandblocker.CommandToBlock;
 import net.cubehunt.hubessentials.commands.HubEssentialsCommand;
@@ -8,7 +9,9 @@ import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import net.cubehunt.hubessentials.config.IConfig;
 import net.cubehunt.hubessentials.listeners.ChatListener;
 import net.cubehunt.hubessentials.listeners.CommandBlockerListener;
+import net.cubehunt.hubessentials.listeners.PluginListener;
 import net.cubehunt.hubessentials.listeners.SpawnListeners;
+import net.cubehunt.hubessentials.perms.PermissionsHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
@@ -29,6 +32,10 @@ public final class HubEssentials extends JavaPlugin {
 
     private final List<IConfig> configList = new ArrayList<>();
 
+    // PermissionHandler Functionality
+    @Getter
+    private PermissionsHandler permissionsHandler;
+
     // Spawn Functionality
     private Spawn spawn;
 
@@ -45,7 +52,7 @@ public final class HubEssentials extends JavaPlugin {
 
         adventure = BukkitAudiences.create(this);
 
-        registerConfigs();
+        registerFunctions();
         registerCommands();
         registerListeners(getServer().getPluginManager());
 
@@ -76,6 +83,9 @@ public final class HubEssentials extends JavaPlugin {
     }
 
     private void registerListeners(final PluginManager pm) {
+        final PluginListener pluginListener = new PluginListener(this);
+        pm.registerEvents(pluginListener, this);
+
         final SpawnListeners spawnListeners = new SpawnListeners(this);
         pm.registerEvents(spawnListeners, this);
 
@@ -86,7 +96,9 @@ public final class HubEssentials extends JavaPlugin {
         pm.registerEvents(chatListener, this);
     }
 
-    private void registerConfigs() {
+    private void registerFunctions() {
+        permissionsHandler = new PermissionsHandler(this, true);
+
         spawn = new Spawn(this);
         configList.add(spawn);
 

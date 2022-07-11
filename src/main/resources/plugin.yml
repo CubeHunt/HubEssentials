@@ -4,6 +4,7 @@ main: net.cubehunt.hubessentials.HubEssentials
 api-version: 1.19
 authors: [ LuuckA, matthewbolds ]
 description: Hub Essentials Plugin
+softdepend: [Vault, LuckPerms]
 libraries:
   - org.spongepowered:configurate-yaml:${libs.configurate-yaml}
   - net.kyori:adventure-text-minimessage:${libs.text-minimessage}

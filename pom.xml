@@ -20,6 +20,8 @@
         <libs.text-minimessage>4.11.0</libs.text-minimessage>
         <libs.platform-bukkit>4.1.1</libs.platform-bukkit>
         <libs.configurate-yaml>4.1.2</libs.configurate-yaml>
+        <libs.vault-api>1.7</libs.vault-api>
+        <libs.luckperms>5.4</libs.luckperms>
 
     </properties>
 
@@ -68,6 +70,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -77,6 +83,20 @@
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>${libs.vault-api}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>${libs.luckperms}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
@@ -89,12 +109,14 @@
             <version>${libs.platform-bukkit}</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${libs.lombok}</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>configurate-yaml</artifactId>
