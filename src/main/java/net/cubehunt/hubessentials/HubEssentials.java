@@ -8,17 +8,21 @@ import net.cubehunt.hubessentials.commands.spawncommands.SetSpawnCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import net.cubehunt.hubessentials.config.IConfig;
 import net.cubehunt.hubessentials.database.DatabaseData;
+import net.cubehunt.hubessentials.database.UserData;
 import net.cubehunt.hubessentials.listeners.ChatListener;
 import net.cubehunt.hubessentials.listeners.CommandBlockerListener;
 import net.cubehunt.hubessentials.listeners.PluginListener;
 import net.cubehunt.hubessentials.listeners.SpawnListeners;
 import net.cubehunt.hubessentials.perms.PermissionsHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,11 +37,15 @@ public final class HubEssentials extends JavaPlugin {
 
     private final List<IConfig> configList = new ArrayList<>();
 
+    @Getter
+    private DatabaseData databaseData;
+
+    @Getter
+    private UserData userData;
+
     // PermissionHandler Functionality
     @Getter
     private PermissionsHandler permissionsHandler;
-
-    private DatabaseData databaseData;
 
     // Spawn Functionality
     private Spawn spawn;
@@ -101,10 +109,12 @@ public final class HubEssentials extends JavaPlugin {
     }
 
     private void registerFunctions() {
-        permissionsHandler = new PermissionsHandler(this, true);
-
         databaseData = new DatabaseData(this);
         configList.add(databaseData);
+
+        userData = new UserData(this);
+
+        permissionsHandler = new PermissionsHandler(this, true);
 
         spawn = new Spawn(this);
         configList.add(spawn);
@@ -135,5 +145,16 @@ public final class HubEssentials extends JavaPlugin {
     /* CommandBlocker Functionality - Methods */
     public Set<CommandToBlock> getBlockedCommands() {
         return commandBlocker.getBlockedCommands();
+    }
+
+    /* DatabaseData Methods */
+    public Connection getConnection() {
+        try {
+            return databaseData.getDbSource().getConnection();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Database connection error! Try to restart your server");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+        return null;
     }
 }

@@ -4,7 +4,7 @@ storage:
   # => mariadb      | [Remote] Save the data into MariaDB database
   # => postgresql   | [Remote] Save the data into PostgreSQL database
   # => sqlite       | [File] Save the data into SQLite database
-  # => h2           | [File] Save the data into H2 database
+  # => h2           | [File] Save the data into H2 database ( default )
   type: sqlite
 
   settings:
