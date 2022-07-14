@@ -6,6 +6,12 @@ authors: [ LuuckA, matthewbolds ]
 description: Hub Essentials Plugin
 softdepend: [Vault, LuckPerms]
 libraries:
-  - org.spongepowered:configurate-yaml:${libs.configurate-yaml}
   - net.kyori:adventure-text-minimessage:${libs.text-minimessage}
   - net.kyori:adventure-platform-bukkit:${libs.platform-bukkit}
+  - org.spongepowered:configurate-yaml:${libs.configurate-yaml}
+  - com.zaxxer:HikariCP:${libs.hikaricp}
+  - mysql:mysql-connector-java:${libs.mysql}
+  - org.mariadb.jdbc:mariadb-java-client:${libs.mariadb}
+  - org.postgresql:postgresql:${libs.postgresql}
+  - org.xerial:sqlite-jdbc:${libs.sqlite}
+  - com.h2database:h2:${libs.h2}

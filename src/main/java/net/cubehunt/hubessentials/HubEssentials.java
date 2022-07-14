@@ -7,6 +7,7 @@ import net.cubehunt.hubessentials.commands.HubEssentialsCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SetSpawnCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import net.cubehunt.hubessentials.config.IConfig;
+import net.cubehunt.hubessentials.database.DatabaseData;
 import net.cubehunt.hubessentials.listeners.ChatListener;
 import net.cubehunt.hubessentials.listeners.CommandBlockerListener;
 import net.cubehunt.hubessentials.listeners.PluginListener;
@@ -35,6 +36,8 @@ public final class HubEssentials extends JavaPlugin {
     // PermissionHandler Functionality
     @Getter
     private PermissionsHandler permissionsHandler;
+
+    private DatabaseData databaseData;
 
     // Spawn Functionality
     private Spawn spawn;
@@ -67,6 +70,7 @@ public final class HubEssentials extends JavaPlugin {
             adventure.close();
             adventure = null;
         }
+        databaseData.close();
         logger.log(Level.INFO, "HubEssentials has been disabled successfully!");
     }
 
@@ -98,6 +102,9 @@ public final class HubEssentials extends JavaPlugin {
 
     private void registerFunctions() {
         permissionsHandler = new PermissionsHandler(this, true);
+
+        databaseData = new DatabaseData(this);
+        configList.add(databaseData);
 
         spawn = new Spawn(this);
         configList.add(spawn);

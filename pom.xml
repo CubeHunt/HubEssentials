@@ -16,12 +16,25 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <libs.lombok>1.18.24</libs.lombok>
-        <libs.text-minimessage>4.11.0</libs.text-minimessage>
-        <libs.platform-bukkit>4.1.1</libs.platform-bukkit>
-        <libs.configurate-yaml>4.1.2</libs.configurate-yaml>
+        <!-- Other plugin Dependencies -->
         <libs.vault-api>1.7</libs.vault-api>
         <libs.luckperms>5.4</libs.luckperms>
+
+        <!-- Kyori Dependencies -->
+        <libs.text-minimessage>4.11.0</libs.text-minimessage>
+        <libs.platform-bukkit>4.1.1</libs.platform-bukkit>
+
+        <!-- Other Dependencies -->
+        <libs.lombok>1.18.24</libs.lombok>
+        <libs.configurate-yaml>4.1.2</libs.configurate-yaml>
+
+        <!-- Database Dependencies -->
+        <libs.hikaricp>5.0.1</libs.hikaricp>
+        <libs.mysql>8.0.29</libs.mysql>
+        <libs.mariadb>3.0.6</libs.mariadb>
+        <libs.postgresql>42.4.0</libs.postgresql>
+        <libs.sqlite>3.36.0.3</libs.sqlite>
+        <libs.h2>2.1.214</libs.h2>
 
     </properties>
 
@@ -76,6 +89,7 @@
         </repository>
     </repositories>
 
+    <!-- Spigot API -->
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -84,6 +98,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Other plugin Dependencies -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
@@ -97,6 +112,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Kyori Dependencies -->
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
@@ -110,17 +126,55 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Other Dependencies -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${libs.lombok}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>configurate-yaml</artifactId>
             <version>${libs.configurate-yaml}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Database Dependencies -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${libs.hikaricp}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${libs.mysql}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${libs.mariadb}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${libs.postgresql}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${libs.sqlite}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${libs.h2}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
