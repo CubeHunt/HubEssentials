@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static net.cubehunt.hubessentials.utils.Message.sendMessage;
-
 public class HubEssentialsCommand extends BaseCommand {
 
     private final HubEssentials plugin;
@@ -37,21 +35,19 @@ public class HubEssentialsCommand extends BaseCommand {
         }
 
         switch (cmd) {
-            case INFO -> {
-                sendMessage(sender,
+            case INFO -> sender.sendMessage(
                     "##### prefix #####\n" +
                     "<gray>Authors: <yellow>" + String.join(", ", plugin.getDescription().getAuthors()) + "\n" +
                     "<gray>Description: <yellow>" + plugin.getDescription().getDescription() + "\n" +
                     "<gray>Version: <yellow>" + plugin.getDescription().getVersion() + "\n" +
                     "<gray>Status: <green>TODO"
-                );
-            }
+            );
             case VERSION -> {
-                sendMessage(sender, "<gray>HubEssentials Version: <green>" + plugin.getDescription().getVersion());
+                sender.sendMessage("<gray>HubEssentials Version: <green>" + plugin.getDescription().getVersion());
             }
             case RELOAD -> {
                 plugin.reload();
-                sendMessage(sender, "<green>HubEssentials has been reloaded successfully!");
+                sender.sendMessage("<green>HubEssentials has been reloaded successfully!");
             }
             case HELP -> {
 

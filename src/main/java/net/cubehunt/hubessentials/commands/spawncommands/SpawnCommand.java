@@ -1,6 +1,7 @@
 package net.cubehunt.hubessentials.commands.spawncommands;
 
 import net.cubehunt.hubessentials.HubEssentials;
+import net.cubehunt.hubessentials.User;
 import net.cubehunt.hubessentials.commands.BaseCommand;
 import net.cubehunt.hubessentials.commands.CommandSource;
 import net.cubehunt.hubessentials.exceptions.InsufficientPermissionException;
@@ -25,18 +26,18 @@ public class SpawnCommand extends BaseCommand {
     public void execute(CommandSource sender, String[] args) throws Exception {
         if (!sender.isPlayer()) throw new Exception("<red>Only players can execute this command!");
 
-        Player player = sender.getPlayer();
+        User user = plugin.getUser(sender.getPlayer());
 
-        if (!testPermissionSilent(player)) {
+        if (!testPermissionSilent(user.getPlayer())) {
             throw new InsufficientPermissionException("<red>You do not have the permission for this command!");
         }
 
         if (!plugin.spawnExists()) {
-            plugin.setSpawn(player.getWorld().getSpawnLocation());
+            plugin.setSpawn(user.getWorld().getSpawnLocation());
         }
-        player.teleport(plugin.getSpawn());
+        user.getPlayer().teleport(plugin.getSpawn());
 
-        sendMessage(player, "<green>You've been teleported to the spawn!");
+        user.sendMessage("<green>You've been teleported to the spawn!");
     }
 
     @Override

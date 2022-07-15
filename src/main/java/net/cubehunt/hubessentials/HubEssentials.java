@@ -4,19 +4,19 @@ import lombok.Getter;
 import net.cubehunt.hubessentials.commandblocker.CommandBlocker;
 import net.cubehunt.hubessentials.commandblocker.CommandToBlock;
 import net.cubehunt.hubessentials.commands.HubEssentialsCommand;
+import net.cubehunt.hubessentials.commands.NicknameCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SetSpawnCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import net.cubehunt.hubessentials.config.IConfig;
 import net.cubehunt.hubessentials.database.DatabaseData;
 import net.cubehunt.hubessentials.database.UserData;
-import net.cubehunt.hubessentials.listeners.ChatListener;
-import net.cubehunt.hubessentials.listeners.CommandBlockerListener;
-import net.cubehunt.hubessentials.listeners.PluginListener;
-import net.cubehunt.hubessentials.listeners.SpawnListeners;
+import net.cubehunt.hubessentials.hideplayer.HidePlayer;
+import net.cubehunt.hubessentials.listeners.*;
 import net.cubehunt.hubessentials.perms.PermissionsHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,6 +37,8 @@ public final class HubEssentials extends JavaPlugin {
     private static BukkitAudiences adventure;
 
     private final List<IConfig> configList = new ArrayList<>();
+
+    private UserMap userMap;
 
     @Getter
     private DatabaseData databaseData;
@@ -52,6 +55,11 @@ public final class HubEssentials extends JavaPlugin {
 
     // CommandBlocker Functionality
     private CommandBlocker commandBlocker;
+
+    // HidePlayer Functionality
+
+    @Getter
+    private HidePlayer hidePlayer;
 
 
     // Plugin Startup Logic
@@ -92,23 +100,20 @@ public final class HubEssentials extends JavaPlugin {
         new HubEssentialsCommand(this);
         new SetSpawnCommand(this);
         new SpawnCommand(this);
+        new NicknameCommand(this);
     }
 
     private void registerListeners(final PluginManager pm) {
         final PluginListener pluginListener = new PluginListener(this);
         pm.registerEvents(pluginListener, this);
 
-        final SpawnListeners spawnListeners = new SpawnListeners(this);
-        pm.registerEvents(spawnListeners, this);
-
-        final CommandBlockerListener commandBlockerListener = new CommandBlockerListener(this);
-        pm.registerEvents(commandBlockerListener, this);
-
-        final ChatListener chatListener = new ChatListener(this);
-        pm.registerEvents(chatListener, this);
+        final PlayerListener playerListener = new PlayerListener(this);
+        pm.registerEvents(playerListener, this);
     }
 
     private void registerFunctions() {
+        userMap = new UserMap(this);
+
         databaseData = new DatabaseData(this);
         configList.add(databaseData);
 
@@ -121,6 +126,30 @@ public final class HubEssentials extends JavaPlugin {
 
         commandBlocker = new CommandBlocker(this);
         configList.add(commandBlocker);
+
+        hidePlayer = new HidePlayer(this);
+        configList.add(hidePlayer);
+    }
+
+    // UserMap - Methods
+    public boolean userExists(final UUID uuid) {
+        return userMap.exists(uuid);
+    }
+
+    public void loadUser(final Player player) {
+        userMap.loadUser(player);
+    }
+
+    public void unloadUser(final UUID uuid) {
+        userMap.unloadUser(uuid);
+    }
+
+    public User getUser(final UUID uuid) {
+        return userMap.getUser(uuid);
+    }
+
+    public User getUser(final Player player) {
+        return userMap.getUser(player);
     }
 
     // BukkitAudiences - Methods

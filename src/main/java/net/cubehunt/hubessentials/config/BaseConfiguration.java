@@ -1,6 +1,8 @@
 package net.cubehunt.hubessentials.config;
 
+import net.cubehunt.hubessentials.config.entities.LazyItem;
 import net.cubehunt.hubessentials.config.entities.LazyLocation;
+import net.cubehunt.hubessentials.config.serializers.LazyItemTypeSerializer;
 import net.cubehunt.hubessentials.config.serializers.LazyLocationTypeSerializer;
 import org.bukkit.Location;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -43,6 +45,7 @@ public final class BaseConfiguration {
         this.loader = YamlConfigurationLoader.builder()
                 .defaultOptions(opts -> opts.serializers(build -> {
                     build.register(LazyLocation.class, new LazyLocationTypeSerializer());
+                    build.register(LazyItem.class, new LazyItemTypeSerializer());
                 }))
                 .nodeStyle(NodeStyle.BLOCK)
                 .indent(2)
@@ -57,6 +60,19 @@ public final class BaseConfiguration {
 
     public File getFile() {
         return configFile;
+    }
+
+//    ----- Item -------------------------------------------------------------------------------------------------------
+
+    public LazyItem getItem(final String path) {
+        final CommentedConfigurationNode node = path == null ? getRootNode() : getSection(path);
+        if (node == null) return null;
+
+        try {
+            return node.get(LazyItem.class);
+        } catch (SerializationException e) {
+            return null;
+        }
     }
 
 //    ----- Location ---------------------------------------------------------------------------------------------------
@@ -193,7 +209,7 @@ public final class BaseConfiguration {
 //    ----- Float ------------------------------------------------------------------------------------------------------
 
     public void setProperty(final String path, final float value) {
-        setInternal(path,value);
+        setInternal(path, value);
     }
 
     public float getFloat(final String path, final float def) {
@@ -301,7 +317,8 @@ public final class BaseConfiguration {
             }
             logger.log(Level.SEVERE, "The file " + configFile + " is broken. A backup file has failed to be created", e.getCause());
         } catch (final ConfigurateException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);;
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            ;
         } finally {
             if (configurationNode == null) {
                 configurationNode = loader.createNode();

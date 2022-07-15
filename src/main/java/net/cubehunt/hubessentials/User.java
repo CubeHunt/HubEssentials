@@ -1,15 +1,16 @@
 package net.cubehunt.hubessentials;
 
 import lombok.Getter;
+import net.cubehunt.hubessentials.utils.Color;
+import net.cubehunt.hubessentials.utils.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
-public class User {
-
-    private final Player base;
+public class User extends ExpandedPlayer {
 
     private final HubEssentials plugin;
 
@@ -22,43 +23,47 @@ public class User {
     @Getter
     private Long logoutTime;
 
-    @Getter
-    private Long mutedTime;
+    private final AtomicBoolean hideStatus;
 
-    private final AtomicBoolean hideplayerStatus;
-
-    public boolean getHideplayerStatus() {
-        return hideplayerStatus.get();
+    public boolean getHideStatus() {
+        return hideStatus.get();
     }
 
     public User(final UUID uuid, final HubEssentials plugin) {
         this(Bukkit.getPlayer(uuid), plugin);
     }
 
-    public User(final Player base, final HubEssentials plugin) {
-        this.base = base;
+    public User(final Player player, final HubEssentials plugin) {
+        super(player);
         this.plugin = plugin;
 
         if (!exists()) createNew();
 
-        plugin.getUserData().updateName(base.getUniqueId(), base.getName());
-        this.nickname = plugin.getUserData().getNickname(base.getUniqueId());
-        this.loginTime = plugin.getUserData().getLoginTime(base.getUniqueId());
-        this.logoutTime = plugin.getUserData().getLogoutTime(base.getUniqueId());
-        this.mutedTime = plugin.getUserData().getMutedTime(base.getUniqueId());
-        this.hideplayerStatus = new AtomicBoolean(plugin.getUserData().getHideStatus(base.getUniqueId()));
+        plugin.getUserData().updateName(player.getUniqueId(), player.getName());
+        this.nickname = plugin.getUserData().getNickname(player.getUniqueId());
+        this.loginTime = plugin.getUserData().getLoginTime(player.getUniqueId());
+        this.logoutTime = plugin.getUserData().getLogoutTime(player.getUniqueId());
+        this.hideStatus = new AtomicBoolean(plugin.getUserData().getHideStatus(player.getUniqueId()));
+    }
+
+    public void sendMessage(final String message) {
+        Message.sendMessage(player, message);
+    }
+
+    public boolean hasPermission(final String perm) {
+        return player.hasPermission(perm);
     }
 
 //    ----- EXISTS -----------------------------------------------------------------------------------------------------
 
     public boolean exists() {
-        return plugin.getUserData().exists(base.getUniqueId());
+        return plugin.getUserData().exists(player.getUniqueId());
     }
 
 //    ----- CREATE -----------------------------------------------------------------------------------------------------
 
     public void createNew() {
-        plugin.getUserData().createNew(base);
+        plugin.getUserData().createNew(player);
     }
 
 //    ----- NAME -------------------------------------------------------------------------------------------------------
@@ -69,53 +74,54 @@ public class User {
 
 //    ----- NICKNAME ---------------------------------------------------------------------------------------------------
 
-    public void setNickname(final String newNickname) {
+    public String getNickname() {
+        return Color.legacy(plugin.getPermissionsHandler().getPrefix(player)) + Color.minimessageToLegacy(this.nickname);
+    }
+
+    public void setNickname() {
+        this.player.setDisplayName(getNickname());
+        this.player.setPlayerListName(getNickname());
+    }
+
+    public void updateNickname(final String newNickname) {
         this.nickname = newNickname;
-        plugin.getUserData().setNickname(base.getUniqueId(), newNickname);
+        plugin.getUserData().setNickname(player.getUniqueId(), newNickname);
+        setNickname();
     }
 
 //    ----- LOGIN ------------------------------------------------------------------------------------------------------
 
     public void setLoginTime(final Long newLoginTime) {
         this.loginTime = newLoginTime;
-        plugin.getUserData().setLoginTime(base.getUniqueId(), newLoginTime);
+        plugin.getUserData().setLoginTime(player.getUniqueId(), newLoginTime);
     }
 
 //    ----- LOGOUT -----------------------------------------------------------------------------------------------------
 
     public void setLogoutTime(final Long newLogoutTime) {
         this.logoutTime = newLogoutTime;
-        plugin.getUserData().setLogoutTime(base.getUniqueId(), newLogoutTime);
-    }
-
-//    ----- MUTED ------------------------------------------------------------------------------------------------------
-
-    public void setMutedTime(final Long newMutedTime) {
-        this.mutedTime = System.currentTimeMillis() + newMutedTime;
-        plugin.getUserData().setMutedTime(base.getUniqueId(), newMutedTime);
+        plugin.getUserData().setLogoutTime(player.getUniqueId(), newLogoutTime);
     }
 
 //    ----- HIDE STATUS ------------------------------------------------------------------------------------------------
 
     public void updateHideStatus() {
-        final boolean status = this.hideplayerStatus.get();
-        this.hideplayerStatus.compareAndSet(status, !status);
-        plugin.getUserData().setHideStatus(base.getUniqueId(), !status);
+        final boolean status = this.hideStatus.get();
+        this.hideStatus.compareAndSet(status, !status);
+        plugin.getUserData().setHideStatus(player.getUniqueId(), !status);
     }
 
 //    ----- HIDE PLAYER FUNCTIONS --------------------------------------------------------------------------------------
 
     public void showPlayers() {
-        updateHideStatus();
         for (final Player p : plugin.getServer().getOnlinePlayers()) {
-            base.showPlayer(plugin, p);
+            player.showPlayer(plugin, p);
         }
     }
 
     public void hidePlayers() {
-        updateHideStatus();
         for (final Player p : plugin.getServer().getOnlinePlayers()) {
-            base.hidePlayer(plugin, p);
+            player.hidePlayer(plugin, p);
         }
     }
 

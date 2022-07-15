@@ -1,0 +1,15 @@
+show:
+  material: LIME_DYE
+  name: "<grey>Players: <green>Visible <grey>(Right-Click)"
+  lore:
+    - "<grey>Right-Click to toggle player visibility!"
+    -
+hide:
+  material: GRAY_DYE
+  name: "<grey>Players: <red>Hidden <grey>(Right-Click)"
+  lore:
+    - "<grey>Right-Click to toggle player visibility!"
+
+slot: 6
+cooldown: 3 #In second
+apply-hide-status-on-join: true

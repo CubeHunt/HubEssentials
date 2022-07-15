@@ -1,0 +1,8 @@
+displayname-in-playerlist: false
+
+chat:
+  # {DISPLAYNAME} - Player name
+  # {MESSAGE} - Message
+  # {PREFIX} - Player prefix
+  # {SUFFIX} - Player suffix
+  format: "{DISPLAYNAME} ➠ <#d4d8d9>{MESSAGE}"

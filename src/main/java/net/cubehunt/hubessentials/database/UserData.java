@@ -24,7 +24,6 @@ public class UserData {
             " `nickname` VARCHAR(50)," +
             " `login` BIGINT," +
             " `logout` BIGINT," +
-            " `muted` BIGINT," +
             " `hide_status` BOOLEAN," +
             " PRIMARY KEY (`uuid`))";
 
@@ -53,14 +52,13 @@ public class UserData {
 
     public void createNew(final Player player) {
         try (Connection conn = plugin.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO users (uuid, name, nickname, login, logout, muted, hide_status) VALUES(?,?,?,?,?,?,?)")) {
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO users (uuid, name, nickname, login, logout, hide_status) VALUES(?,?,?,?,?,?)")) {
             ps.setString(1, player.getUniqueId().toString());
             ps.setString(2, player.getName());
             ps.setString(3, player.getName());
             ps.setLong(4, System.currentTimeMillis());
             ps.setLong(5, 0L);
             ps.setBoolean(6, false);
-            ps.setBoolean(7, false);
             ps.executeUpdate();
         } catch (final SQLException ex) {
             ex.printStackTrace();
@@ -149,31 +147,6 @@ public class UserData {
              PreparedStatement ps = conn.prepareStatement("UPDATE users SET logout=? WHERE uuid=?")
         ) {
             ps.setLong(1, newLogoutTime);
-            ps.setString(2, uuid.toString());
-            ps.executeUpdate();
-        } catch (final SQLException ignored) {
-        }
-    }
-
-//    ----- MUTED ------------------------------------------------------------------------------------------------------
-
-    public Long getMutedTime(final UUID uuid) {
-        try (Connection conn = plugin.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT muted FROM users WHERE uuid=?")
-        ) {
-            ps.setString(1, uuid.toString());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getLong("muted");
-        } catch (final SQLException ignored) {
-        }
-        return 0L;
-    }
-
-    public void setMutedTime(final UUID uuid, final Long newMutedTime) {
-        try (Connection conn = plugin.getConnection();
-             PreparedStatement ps = conn.prepareStatement("UPDATE users SET muted=? WHERE uuid=?")
-        ) {
-            ps.setLong(1, System.currentTimeMillis() + newMutedTime);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
         } catch (final SQLException ignored) {
