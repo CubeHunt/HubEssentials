@@ -109,6 +109,15 @@ public final class HubEssentials extends JavaPlugin {
 
         final PlayerListener playerListener = new PlayerListener(this);
         pm.registerEvents(playerListener, this);
+
+        final ChatListener chatListener = new ChatListener(this);
+        pm.registerEvents(chatListener, this);
+
+        final HidePlayerListener hidePlayerListener = new HidePlayerListener(this);
+        pm.registerEvents(hidePlayerListener, this);
+
+        final SpawnListener spawnListener = new SpawnListener(this);
+        pm.registerEvents(spawnListener, this);
     }
 
     private void registerFunctions() {

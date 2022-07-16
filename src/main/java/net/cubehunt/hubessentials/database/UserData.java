@@ -96,7 +96,7 @@ public class UserData {
         try (Connection conn = plugin.getConnection();
              PreparedStatement ps = conn.prepareStatement("UPDATE users SET nickname=? WHERE uuid=?")
         ) {
-            ps.setString(1, newNickname.toLowerCase());
+            ps.setString(1, newNickname);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
         } catch (final SQLException ignored) {

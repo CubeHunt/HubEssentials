@@ -248,7 +248,8 @@ public final class BaseConfiguration {
         return ConfigurateUtil.getKeys(configurationNode);
     }
 
-    public Map<String, CommentedConfigurationNode> getMap() {
+    public Map<String, CommentedConfigurationNode> getMap(final String path) {
+        final CommentedConfigurationNode configurationNode = getSection(path);
         return ConfigurateUtil.getMap(configurationNode);
     }
 

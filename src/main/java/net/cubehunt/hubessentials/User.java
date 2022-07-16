@@ -54,6 +54,14 @@ public class User extends ExpandedPlayer {
         return player.hasPermission(perm);
     }
 
+    public String getPrefix() {
+        return plugin.getPermissionsHandler().getPrefix(player);
+    }
+
+    public String getSuffix() {
+        return plugin.getPermissionsHandler().getSuffix(player);
+    }
+
 //    ----- EXISTS -----------------------------------------------------------------------------------------------------
 
     public boolean exists() {

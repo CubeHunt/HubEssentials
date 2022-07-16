@@ -68,6 +68,10 @@ public class HidePlayer implements IConfig {
         return true;
     }
 
+    public Long getRemainingSeconds(final UUID uuid) {
+        return TimeUnit.MILLISECONDS.toSeconds(cooldown.asMap().get(uuid) - System.currentTimeMillis());
+    }
+
     @Override
     public void reloadConfig() {
         config.load();
