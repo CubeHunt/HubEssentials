@@ -1,14 +1,11 @@
 package net.cubehunt.hubessentials.commands.chatcommands;
 
 import net.cubehunt.hubessentials.HubEssentials;
-import net.cubehunt.hubessentials.Settings;
 import net.cubehunt.hubessentials.User;
 import net.cubehunt.hubessentials.commands.BaseCommand;
 import net.cubehunt.hubessentials.commands.CommandSource;
 import net.cubehunt.hubessentials.exceptions.InsufficientPermissionException;
-import net.cubehunt.hubessentials.exceptions.NotEnoughArgumentsException;
 
-import javax.swing.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +34,10 @@ public class NickcolorsCommand extends BaseCommand {
             StringBuilder sb = new StringBuilder("Available Colors List");
             HashMap<String, String> nickColors = plugin.getSettings().getNickColors();
 
-
             for (Map.Entry<String, String> entry : nickColors.entrySet()) {
                 if (user.hasPermission("hubessentials.chat.nickcolor." + entry.getKey())) {
                     String colorToUpper = entry.getKey().substring(0, 1).toUpperCase() + entry.getKey().substring(1);
-                    sb.append(String.format("\n<click:run_command:/nickcolor %s><hover:show_text:'Click to set your nickname color'>%s\u2588 <grey>- %s%s</click>", entry.getKey(), entry.getValue(), entry.getValue(), colorToUpper));
+                    sb.append(String.format("\n<click:run_command:/nickcolor %s><hover:show_text:'Click to set your nickname to %s'>%s\u2588 <grey>- %s%s</click>", entry.getKey(), (entry.getValue() + user.getPlayer().getName()), entry.getValue(), entry.getValue(), colorToUpper));
                 }
             }
 

@@ -26,18 +26,21 @@ public class Settings implements IConfig {
     private String playerWelcomeMessage;
 
     public String getPlayerJoinMessage(final Player player) {
-        String message = playerJoinMessage.replace("{PLAYERNAME}", player.getName()).replace("{DISPLAYNAME}", player.getDisplayName());
-        return Color.minimessageToLegacy(message);
+        String message = Color.minimessageToLegacy(playerJoinMessage);
+        message = message.replace("{PLAYERNAME}", player.getName()).replace("{DISPLAYNAME}", player.getDisplayName());
+        return message;
     }
 
     public String getPlayerQuitMessage(final Player player) {
-        String message = playerQuitMessage.replace("{PLAYERNAME}", player.getName()).replace("{DISPLAYNAME}", player.getDisplayName());
-        return Color.minimessageToLegacy(message);
+        String message = Color.minimessageToLegacy(playerQuitMessage);
+        message = message.replace("{PLAYERNAME}", player.getName()).replace("{DISPLAYNAME}", player.getDisplayName());
+        return message;
     }
 
     public String getPlayerWelcomeMessage(final Player player) {
-        String message = playerWelcomeMessage.replace("{PLAYERNAME}", player.getName()).replace("{DISPLAYNAME}", player.getDisplayName());
-        return Color.minimessageToLegacy(message);
+        String message = Color.minimessageToLegacy(playerWelcomeMessage);
+        message = message.replace("{PLAYERNAME}", player.getName()).replace("{DISPLAYNAME}", player.getDisplayName());
+        return message;
     }
 
     public Settings(HubEssentials plugin) {

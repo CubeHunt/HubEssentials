@@ -4,27 +4,18 @@ import lombok.RequiredArgsConstructor;
 import net.cubehunt.hubessentials.HubEssentials;
 import net.cubehunt.hubessentials.User;
 import net.cubehunt.hubessentials.commandblocker.CommandToBlock;
-import net.cubehunt.hubessentials.utils.Color;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.*;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
-
-    private static final Logger logger = Logger.getLogger("HubEssentials");
 
     private final HubEssentials plugin;
 

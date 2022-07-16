@@ -26,10 +26,10 @@ chat:
     white: "<#FFFFFF>"
 
   # The message showed when a player joins the server
-  player-join-message: "{PLAYERNAME} joined"
+  player-join-message: "{DISPLAYNAME} <grey>[<green>+<grey>]"
 
   # The message showed when a player joins the server for the first time
-  player-welcome-message: "{PLAYERNAME} Welcome!"
+  player-welcome-message: "{PLAYERNAME} <gold>NEW!"
 
   # The message showed when a player quits the server
-  player-quit-message: "{PLAYERNAME} joined"
+  player-quit-message: "{DISPLAYNAME} <grey>[<red>-<grey>]"

@@ -22,12 +22,11 @@ public class ChatListener implements Listener {
         user.setNickname();
 
         String format = plugin.getSettings().getChatFormat();
-        format = format.replace("{DISPLAYNAME}", "%1$s");
-        format = format.replace("{MESSAGE}", "%2$s");
-        format = format.replace("{PREFIX}", user.getPrefix());
-        format = format.replace("{SUFFIX}", user.getSuffix());
         format = Color.minimessageToLegacy(format);
-        format = format.replace("%1$s", "%1$s§r");
+        format = format.replace("{DISPLAYNAME}", "%1$s§r");
+        format = format.replace("{MESSAGE}", "%2$s");
+        format = format.replace("{PREFIX}", Color.legacy(user.getPrefix()));
+        format = format.replace("{SUFFIX}", Color.legacy(user.getSuffix()));
         event.setFormat(format);
 
         if (user.hasPermission("hubessentials.chatcolor")) {
