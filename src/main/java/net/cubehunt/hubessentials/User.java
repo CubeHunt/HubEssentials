@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
 
 public class User extends ExpandedPlayer {
 

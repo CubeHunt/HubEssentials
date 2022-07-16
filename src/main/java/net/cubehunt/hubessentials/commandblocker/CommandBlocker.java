@@ -20,10 +20,7 @@ public class CommandBlocker implements IConfig {
 
     public CommandBlocker(HubEssentials plugin) {
         this.plugin = plugin;
-        this.config = new BaseConfiguration(
-                new File(plugin.getDataFolder(), "blocked-commands.yml"),
-                "/blocked-commands.yml"
-        );
+        this.config = new BaseConfiguration(new File(plugin.getDataFolder(), "blocked-commands.yml"), "/blocked-commands.yml");
         reloadConfig();
     }
 

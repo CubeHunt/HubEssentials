@@ -1,8 +1,35 @@
 displayname-in-playerlist: false
 
+###############################################################################
+## Use these placeholders to reach the desired output while customizing chat ##
+###############################################################################
+
+# {DISPLAYNAME} - Player Name (With Permission Prefix)
+# {PLAYERNAME} - Player Name (Without Permission Prefix)
+# {MESSAGE} - Message
+# {PREFIX} - Player prefix
+# {SUFFIX} - Player suffix
+
 chat:
-  # {DISPLAYNAME} - Player name
-  # {MESSAGE} - Message
-  # {PREFIX} - Player prefix
-  # {SUFFIX} - Player suffix
-  format: "{DISPLAYNAME} ➠ <#d4d8d9>{MESSAGE}"
+  # Chat Messages Format
+  format: "{DISPLAYNAME} ➠ <#D4D8D9>{MESSAGE}"
+
+  # Customizable Nick Colors
+  nick-colors:
+    orange: "<#FFC300>"
+    grey: "<#D4D8D9>"
+    aqua: "<#7CF2EF>"
+    red: "<#F97F7F>"
+    green: "<#7DF26C>"
+    blue: "<#719EEE>"
+    purple: "<#F793DC>"
+    white: "<#FFFFFF>"
+
+  # The message showed when a player joins the server
+  player-join-message: "{PLAYERNAME} joined"
+
+  # The message showed when a player joins the server for the first time
+  player-welcome-message: "{PLAYERNAME} Welcome!"
+
+  # The message showed when a player quits the server
+  player-quit-message: "{PLAYERNAME} joined"

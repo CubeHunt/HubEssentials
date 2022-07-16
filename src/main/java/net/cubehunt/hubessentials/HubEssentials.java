@@ -4,7 +4,9 @@ import lombok.Getter;
 import net.cubehunt.hubessentials.commandblocker.CommandBlocker;
 import net.cubehunt.hubessentials.commandblocker.CommandToBlock;
 import net.cubehunt.hubessentials.commands.HubEssentialsCommand;
-import net.cubehunt.hubessentials.commands.NicknameCommand;
+import net.cubehunt.hubessentials.commands.chatcommands.DirectMessageCommand;
+import net.cubehunt.hubessentials.commands.chatcommands.EchoCommand;
+import net.cubehunt.hubessentials.commands.chatcommands.NickcolorsCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SetSpawnCommand;
 import net.cubehunt.hubessentials.commands.spawncommands.SpawnCommand;
 import net.cubehunt.hubessentials.config.IConfig;
@@ -38,6 +40,10 @@ public final class HubEssentials extends JavaPlugin {
 
     private final List<IConfig> configList = new ArrayList<>();
 
+    // General Settings Functionality
+    @Getter
+    private Settings settings;
+
     private UserMap userMap;
 
     @Getter
@@ -57,7 +63,6 @@ public final class HubEssentials extends JavaPlugin {
     private CommandBlocker commandBlocker;
 
     // HidePlayer Functionality
-
     @Getter
     private HidePlayer hidePlayer;
 
@@ -100,7 +105,9 @@ public final class HubEssentials extends JavaPlugin {
         new HubEssentialsCommand(this);
         new SetSpawnCommand(this);
         new SpawnCommand(this);
-        new NicknameCommand(this);
+        new NickcolorsCommand(this);
+        new DirectMessageCommand(this);
+        new EchoCommand(this);
     }
 
     private void registerListeners(final PluginManager pm) {
@@ -121,6 +128,9 @@ public final class HubEssentials extends JavaPlugin {
     }
 
     private void registerFunctions() {
+        settings = new Settings(this);
+        configList.add(settings);
+
         userMap = new UserMap(this);
 
         databaseData = new DatabaseData(this);
@@ -195,4 +205,5 @@ public final class HubEssentials extends JavaPlugin {
         }
         return null;
     }
+
 }
